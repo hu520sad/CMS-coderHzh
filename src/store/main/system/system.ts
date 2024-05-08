@@ -1,5 +1,6 @@
 import { deletePageById, deleteUserById, editPageData, editUserData, newPageData, postNewUser, postPageListData, postUserListData } from "@/service/main/system/system";
 import { defineStore } from "pinia";
+import useMainStore from "../main";
 
 export const useSystemStore = defineStore('SystemStore', {
 	state: () => ({
@@ -60,12 +61,19 @@ export const useSystemStore = defineStore('SystemStore', {
 			const newResult = await newPageData(pageName, pageInfo);
 
 			this.postPageListAction(pageName, { offset: 0, size: 10 })
+
+			const mainStore = useMainStore()
+			mainStore.postRoleDpAction()
 		},
 
 		async editPageAction(pageName: string, pageInfo: any, id: number) {
 			const editResult = await editPageData(pageName, id, pageInfo);
 
+
 			this.postPageListAction(pageName, { offset: 0, size: 10 })
+
+			const mainStore = useMainStore()
+			mainStore.postRoleDpAction()
 		}
 	}
 })

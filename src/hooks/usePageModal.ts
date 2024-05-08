@@ -4,11 +4,12 @@ import { ref } from 'vue'
 
 type EditCallFn = (itemData: any) => void
 
-function usePageModal(editCallBack: EditCallFn) {
+function usePageModal(newCallBack?: any, editCallBack?: EditCallFn) {
 	const PgModal = ref<InstanceType<typeof pageModal>>()
 	// 点击新建和编辑
 	function handleNewClick() {
 		PgModal.value?.remarkStageModal()
+		if (newCallBack) newCallBack()
 	}
 	function handleEditClick(itemData: any) {
 		PgModal.value?.remarkStageModal(true, itemData)

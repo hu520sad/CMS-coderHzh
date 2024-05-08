@@ -4,7 +4,7 @@ import type { IAccount } from '@/types'
 import { localCache } from '@/utils/cache'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/variable'
-import { firstMenu, mapMenusToRoutes } from '@/utils/map-menus'
+import { firstMenu, mapMenuToPer, mapMenusToRoutes } from '@/utils/map-menus'
 import useMainStore from '../main/main'
 
 
@@ -13,7 +13,8 @@ const useLoginStore = defineStore('LoginStore', {
 	state: () => ({
 		userinfo: {},
 		token: '',
-		userMenus: []
+		userMenus: [],
+		userPermission: [] as any
 	}),
 
 	actions: {
@@ -42,7 +43,12 @@ const useLoginStore = defineStore('LoginStore', {
 			const routes = mapMenusToRoutes(userMenus)
 			routes.forEach(route => router.addRoute('main', route))
 
-			//获取部们列表和角色列表
+			//获取菜单映射的权限列表
+			const permission = mapMenuToPer(userMenus);
+			this.userPermission = permission
+
+
+			//获取部门列表和角色列表
 			const mainStore = useMainStore()
 			mainStore.postRoleDpAction()
 
@@ -66,6 +72,9 @@ const useLoginStore = defineStore('LoginStore', {
 				//重新获取部们列表和角色列表
 				const mainStore = useMainStore()
 				mainStore.postRoleDpAction()
+
+				const permission = mapMenuToPer(userMenus);
+				this.userPermission = permission
 
 				//添加动态路由
 				const routes = mapMenusToRoutes(userMenus)

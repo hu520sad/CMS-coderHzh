@@ -78,3 +78,20 @@ export function mapMenuListToIds(menuList: any) {
 
 	return ids
 }
+
+export function mapMenuToPer(menuList: any) {
+	const ids: any[] = [];
+
+	function recurseGetId(menuList: any) {
+		for (const item of menuList) {
+			if (item.type === 3) {
+				ids.push(item.permission)
+			} else {
+				recurseGetId(item.children ?? [])
+			}
+		}
+	}
+	recurseGetId(menuList)
+
+	return ids;
+}

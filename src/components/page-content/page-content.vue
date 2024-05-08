@@ -3,6 +3,8 @@ import { useSystemStore } from '@/store/main/system/system';
 import { storeToRefs } from 'pinia';
 import { formatUTC } from '@/utils/format';
 import { ref } from 'vue';
+import usePermission from '@/hooks/usePermission';
+
 
 
 interface IProps {
@@ -13,7 +15,7 @@ interface IProps {
 			btnTitle?: string
 		}
 		propsList: any[],
-		childrenTree?:any
+		childrenTree?: any
 	}
 }
 
@@ -23,6 +25,23 @@ const props = defineProps<IProps>()
 const currentPage = ref(1)
 const pageSize = ref(10)
 const systemStore = useSystemStore()
+
+systemStore.$onAction(({ name, after }) => [
+	after(() => {
+		if (name === 'editPageAction' || name === 'newPageAction' || name === 'deletePageByIdAction') {
+			currentPage.value = 1
+		}
+	})
+])
+
+
+
+//获取是否有增删改查的权限
+const isCreate = usePermission(`${props.contentConfig.pageName}:create`)
+const isDelete = usePermission(`${props.contentConfig.pageName}:delete`)
+const isUpdate = usePermission(`${props.contentConfig.pageName}:update`);
+const isQuery = usePermission(`${props.contentConfig.pageName}:query`)
+
 postDpRequest()
 
 const { pageList, pageTotalCount } = storeToRefs(systemStore) as any
@@ -36,13 +55,17 @@ function handleCurrentChange() {
 	postDpRequest()
 }
 
+
+
 //发送请求的参数一直在变化，弄一个函数整理这些变化，统一发送请求
 function postDpRequest(formVal: any = {}) {
+	if (!isQuery) return
 	const size = pageSize.value
 	const offset = (currentPage.value - 1) * size
 	const info = { size, offset, ...formVal }
 	systemStore.postPageListAction(props.contentConfig.pageName, info)
 }
+
 
 
 //新建/删除/编辑用户
@@ -69,7 +92,8 @@ function handleEditClick(itemData: any) {
 	<div class="content">
 		<div class="header-list">
 			<h2 style="font-size: 20px">{{ contentConfig.header?.title ?? '部门列表' }}</h2>
-			<el-button type="primary" @click="newUser">{{ contentConfig.header?.btnTitle ?? '新建部门' }}</el-button>
+			<el-button v-if="isCreate" type="primary" @click="newUser">{{ contentConfig.header?.btnTitle ?? '新建部门'
+				}}</el-button>
 		</div>
 		<div class="table">
 			<el-table :data="pageList" border style="width: 100%" v-bind="contentConfig.childrenTree">
@@ -85,11 +109,11 @@ function handleEditClick(itemData: any) {
 						<el-table-column align="center" label="操作" width="150px">
 							<template #default="scoped">
 								<el-button size="small" icon="Edit" type="primary" text
-									@click="handleEditClick(scoped.row)">
+									@click="handleEditClick(scoped.row)" v-if="isUpdate">
 									编辑
 								</el-button>
 								<el-button size="small" icon="Delete" type="danger" text
-									@click="handleDelteUser(scoped.row.id)">
+									@click="handleDelteUser(scoped.row.id)" v-if="isDelete">
 									删除
 								</el-button>
 							</template>

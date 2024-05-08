@@ -28,6 +28,13 @@ import type { ElTree } from "element-plus";
 import { nextTick } from "vue";
 import { mapMenuListToIds } from "@/utils/map-menus";
 
+
+function newCallBack() {
+	nextTick(() => {
+		treeRef.value?.setCheckedKeys([])
+	})
+}
+
 function editCallBack(itemData: any) {
 	nextTick(() => {
 		const ids = mapMenuListToIds(itemData.menuList)
@@ -35,7 +42,7 @@ function editCallBack(itemData: any) {
 	})
 }
 const { PgConten, handleResetClick, handleQueryClick } = usePageContent()
-const { handleEditClick, handleNewClick, PgModal } = usePageModal(editCallBack)
+const { handleEditClick, handleNewClick, PgModal } = usePageModal(newCallBack, editCallBack)
 
 // 获取完整的菜单
 const mainStore = useMainStore()
@@ -47,6 +54,8 @@ function handleEltreeCheck(data1: any, data2: any) {
 	const menuList = [...data2.checkedKeys, ...data2.halfCheckedKeys];
 	otherInfo.value = { menuList }
 }
+
+
 
 
 

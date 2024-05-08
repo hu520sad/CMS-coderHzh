@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import usePermission from '@/hooks/usePermission';
 import type { ElForm } from 'element-plus';
 import { reactive, ref } from 'vue';
 
@@ -31,6 +32,8 @@ function refreshTable() {
 function querySearch() {
 	emit('roleSearch', searchKeyWord)
 }
+
+// const isQuery=usePermission(`${props.searchConfig.}`)
 </script>
 
 <template>
