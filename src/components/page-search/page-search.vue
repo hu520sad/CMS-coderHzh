@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import searchConfig from '@/views/main/system/department/config/searcg.config';
 import type { ElForm } from 'element-plus';
 import { reactive, ref } from 'vue';
 
@@ -53,7 +52,7 @@ function querySearch() {
 								</template>
 								<template v-if="item.type === 'select'">
 									<el-select v-model="searchKeyWord[item.prop]" :placeholder="item.placeholder"
-										style="width:100%">
+										style="width: 100%">
 										<template v-for="option in item.options" :key="option.value">
 											<el-option :label="option.label" :value="option.value" />
 										</template>

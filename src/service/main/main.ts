@@ -14,3 +14,10 @@ export function postDepaetmentList() {
 	})
 }
 
+/* 菜单获取 */
+export function getEntireMenu() {
+	return hyRequest.post({
+		url: '/menu/list'
+	})
+}
+

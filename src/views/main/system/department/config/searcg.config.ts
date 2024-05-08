@@ -17,16 +17,16 @@ const searchConfig = {
 			prop: "createAt",
 			label: '创建时间',
 		},
-		{
-			type: 'select',
-			prop: 'enable',
-			label: '状态',
-			placeholder: '请选择查询状态',
-			options: [
-				{ label: '启动', value: 1 },
-				{ label: '禁用', value: 0 },
-			]
-		}
+		// {
+		// 	type: 'select',
+		// 	prop: 'enable',
+		// 	label: '状态',
+		// 	placeholder: '请选择查询状态',
+		// 	options: [
+		// 		{ label: '启动', value: 1 },
+		// 		{ label: '禁用', value: 0 },
+		// 	]
+		// }
 	]
 }
 
