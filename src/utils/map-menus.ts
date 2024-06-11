@@ -1,4 +1,4 @@
-import type { RouteRecord } from "vue-router"
+import type { RouteRecord } from 'vue-router'
 
 function loadLocalRoute() {
 	//1.动态获取所有路由对象
@@ -17,7 +17,6 @@ function loadLocalRoute() {
 export let firstMenu: any = null
 //不要在工具里加，只做一件事，使其具有通用性
 export function mapMenusToRoutes(userMenus: any[]) {
-
 	const localRoutes = loadLocalRoute()
 
 	//
@@ -26,7 +25,7 @@ export function mapMenusToRoutes(userMenus: any[]) {
 		for (const subMenus of menu.children) {
 			const route = localRoutes.find((item) => item.path === subMenus.url)
 			if (route) {
-				if (!routes.find(item => item.path === menu.url)) {
+				if (!routes.find((item) => item.path === menu.url)) {
 					routes.push({ path: menu.url, redirect: route } as any)
 				}
 				routes.push(route)
@@ -36,7 +35,6 @@ export function mapMenusToRoutes(userMenus: any[]) {
 	}
 	return routes
 }
-
 
 export function mapPathToMenu(path: string, userMenus: any[]) {
 	for (const menus of userMenus) {
@@ -61,13 +59,12 @@ export function mapPathToBread(path: string, userMenus: any[]) {
 }
 
 export function mapMenuListToIds(menuList: any) {
-	const ids: number[] = [];
+	const ids: number[] = []
 	function recurseGetId(menus: any[]) {
 		for (const item of menus) {
 			if (item.children) {
 				recurseGetId(item.children)
-			}
-			else {
+			} else {
 				ids.push(item.id)
 			}
 		}
@@ -75,12 +72,11 @@ export function mapMenuListToIds(menuList: any) {
 
 	recurseGetId(menuList)
 
-
 	return ids
 }
 
 export function mapMenuToPer(menuList: any) {
-	const ids: any[] = [];
+	const ids: any[] = []
 
 	function recurseGetId(menuList: any) {
 		for (const item of menuList) {
@@ -93,5 +89,5 @@ export function mapMenuToPer(menuList: any) {
 	}
 	recurseGetId(menuList)
 
-	return ids;
+	return ids
 }

@@ -7,8 +7,6 @@ import store from './store'
 import useEleIcon from './iconConfig'
 import 'element-plus/dist/index.css'
 
-
-
 const app = createApp(App)
 
 app.use(useEleIcon)

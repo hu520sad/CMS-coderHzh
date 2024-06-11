@@ -7,8 +7,6 @@ import { LOGIN_TOKEN } from '@/global/variable'
 import { firstMenu, mapMenuToPer, mapMenusToRoutes } from '@/utils/map-menus'
 import useMainStore from '../main/main'
 
-
-
 const useLoginStore = defineStore('LoginStore', {
 	state: () => ({
 		userinfo: {},
@@ -41,17 +39,15 @@ const useLoginStore = defineStore('LoginStore', {
 
 			//添加动态路由
 			const routes = mapMenusToRoutes(userMenus)
-			routes.forEach(route => router.addRoute('main', route))
+			routes.forEach((route) => router.addRoute('main', route))
 
 			//获取菜单映射的权限列表
-			const permission = mapMenuToPer(userMenus);
+			const permission = mapMenuToPer(userMenus)
 			this.userPermission = permission
-
 
 			//获取部门列表和角色列表
 			const mainStore = useMainStore()
 			mainStore.postRoleDpAction()
-
 
 			//成功页面跳转
 			router.push('/main')
@@ -65,20 +61,20 @@ const useLoginStore = defineStore('LoginStore', {
 			const userMenus = localCache.getCache('userMenus')
 
 			if (token && userinfo && userMenus) {
-				this.token = token;
-				this.userinfo = userinfo;
-				this.userMenus = userMenus;
+				this.token = token
+				this.userinfo = userinfo
+				this.userMenus = userMenus
 
 				//重新获取部们列表和角色列表
 				const mainStore = useMainStore()
 				mainStore.postRoleDpAction()
 
-				const permission = mapMenuToPer(userMenus);
+				const permission = mapMenuToPer(userMenus)
 				this.userPermission = permission
 
 				//添加动态路由
 				const routes = mapMenusToRoutes(userMenus)
-				routes.forEach(route => router.addRoute('main', route))
+				routes.forEach((route) => router.addRoute('main', route))
 			}
 		}
 	}
